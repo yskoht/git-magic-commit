@@ -1,9 +1,12 @@
 {
-	"name": "git-magic-commit",
+	"name": "@yskoht/git-magic-commit",
 	"version": "0.0.0",
 	"description": "Automatically generate Git commit messages as if by magic.",
-	"main": "index.js",
 	"type": "module",
+	"bin": {
+		"git-magic-commit": "./dist/cli.js"
+	},
+	"files": ["dist"],
 	"scripts": {
 		"build": "tsc",
 		"format": "rome format --write src",
@@ -13,7 +16,7 @@
 		"type": "git",
 		"url": "git+https://github.com/yskoht/git-magic-commit.git"
 	},
-	"author": "yskoht",
+	"author": "yskoht <ysk.oht@gmail.com> (https://github.com/yskoht)",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/yskoht/git-magic-commit/issues"
