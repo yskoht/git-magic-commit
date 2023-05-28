@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/yskoht/git-magic-commit#readme",
   "devDependencies": {
+    "rome": "12.1.2",
     "typescript": "^5.0.4"
   },
   "dependencies": {
