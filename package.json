@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/yskoht/git-magic-commit/issues"
   },
-  "homepage": "https://github.com/yskoht/git-magic-commit#readme"
+  "homepage": "https://github.com/yskoht/git-magic-commit#readme",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
 }
