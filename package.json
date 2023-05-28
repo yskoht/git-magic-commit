@@ -19,5 +19,8 @@
   "homepage": "https://github.com/yskoht/git-magic-commit#readme",
   "devDependencies": {
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "execa": "^7.1.1"
   }
 }
