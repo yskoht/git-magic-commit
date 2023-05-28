@@ -1,6 +1,6 @@
 {
 	"name": "@yskoht/git-magic-commit",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Automatically generate Git commit messages as if by magic.",
 	"type": "module",
 	"bin": {
