@@ -1,28 +1,28 @@
 {
-  "name": "git-magic-commit",
-  "version": "0.0.0",
-  "description": "Automatically generate Git commit messages as if by magic.",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "format": "rome format --write src",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yskoht/git-magic-commit.git"
-  },
-  "author": "yskoht",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yskoht/git-magic-commit/issues"
-  },
-  "homepage": "https://github.com/yskoht/git-magic-commit#readme",
-  "devDependencies": {
-    "rome": "12.1.2",
-    "typescript": "^5.0.4"
-  },
-  "dependencies": {
-    "execa": "^7.1.1"
-  }
+	"name": "git-magic-commit",
+	"version": "0.0.0",
+	"description": "Automatically generate Git commit messages as if by magic.",
+	"main": "index.js",
+	"scripts": {
+		"build": "tsc",
+		"format": "rome format --write src",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yskoht/git-magic-commit.git"
+	},
+	"author": "yskoht",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/yskoht/git-magic-commit/issues"
+	},
+	"homepage": "https://github.com/yskoht/git-magic-commit#readme",
+	"devDependencies": {
+		"rome": "12.1.2",
+		"typescript": "^5.0.4"
+	},
+	"dependencies": {
+		"execa": "^7.1.1"
+	}
 }
