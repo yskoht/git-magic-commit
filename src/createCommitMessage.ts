@@ -10,6 +10,8 @@ import { generateDiff } from "./generateDiff.js";
 import { postProcess } from "./utils.js";
 import { CreateCommitMessage, Option } from "./types.js";
 
+const DIFF_MAX_LENGTH = 2000;
+
 async function summarize(diff: string, opt: Option): Promise<string> {
 	const model = new OpenAI({ temperature: 0, verbose: opt.verbose });
 	const chain = new AnalyzeDocumentChain({
@@ -29,7 +31,7 @@ async function createSubject(
 	question: string,
 	opt: Option,
 ): Promise<string> {
-	const pageContent = diff.length < 2000 ? diff : summary;
+	const pageContent = diff.length < DIFF_MAX_LENGTH ? diff : summary;
 	const docs = [new Document({ pageContent })];
 	const model = new OpenAI({ temperature: 0, verbose: opt.verbose });
 	const chain = loadQAStuffChain(model);
