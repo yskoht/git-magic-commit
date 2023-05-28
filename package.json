@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "format": "rome format --write src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
