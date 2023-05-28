@@ -24,11 +24,13 @@ async function summarize(diff: string, opt: Option): Promise<string> {
 }
 
 async function createSubject(
+	diff: string,
 	summary: string,
 	question: string,
 	opt: Option,
 ): Promise<string> {
-	const docs = [new Document({ pageContent: summary })];
+	const pageContent = diff.length < 2000 ? diff : summary;
+	const docs = [new Document({ pageContent })];
 	const model = new OpenAI({ temperature: 0, verbose: opt.verbose });
 	const chain = loadQAStuffChain(model);
 	const result = await chain.call({
@@ -45,7 +47,7 @@ export const createCommitMessage: CreateCommitMessage = async (
 ) => {
 	const diff = await generateDiff();
 	const summary = await summarize(diff, opt);
-	const subject = await createSubject(summary, question, opt);
+	const subject = await createSubject(diff, summary, question, opt);
 	return {
 		subject: postProcess(subject),
 		body: postProcess(summary),
