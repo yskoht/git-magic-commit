@@ -1,0 +1,19 @@
+{
+  "name": "git-magic-commit",
+  "version": "0.0.0",
+  "description": "Automatically generate Git commit messages as if by magic.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yskoht/git-magic-commit.git"
+  },
+  "author": "yskoht",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yskoht/git-magic-commit/issues"
+  },
+  "homepage": "https://github.com/yskoht/git-magic-commit#readme"
+}
