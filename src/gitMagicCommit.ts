@@ -17,5 +17,5 @@ export async function gitMagicCommit({
 		console.log({ commitMessage });
 	}
 
-	commit(commitMessage);
+	await commit(commitMessage);
 }
