@@ -2,7 +2,7 @@ export type Option = {
 	verbose: boolean;
 };
 
-type ReturnCreateCommitMessage = {
+export type CommitMessage = {
 	subject: string;
 	body?: string;
 };
@@ -10,4 +10,4 @@ type ReturnCreateCommitMessage = {
 export type CreateCommitMessage = (
 	question: string,
 	opt: Option,
-) => Promise<ReturnCreateCommitMessage>;
+) => Promise<CommitMessage>;

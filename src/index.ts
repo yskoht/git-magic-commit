@@ -3,6 +3,7 @@ const verbose = true;
 
 import { q } from "./utils.js";
 import { createCommitMessage } from "./createCommitMessage.js";
+import { commit } from "./commit.js";
 
 const question = q(`
 	Generate a concise and appropriate Git commit message.
@@ -10,8 +11,9 @@ const question = q(`
 `);
 
 async function main() {
-	const result = await createCommitMessage(question, { verbose });
-	console.log({ result });
+	const commitMessage = await createCommitMessage(question, { verbose });
+	console.log({ commitMessage });
+	commit(commitMessage);
 }
 
 main();
