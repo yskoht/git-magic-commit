@@ -13,7 +13,9 @@ export async function gitMagicCommit({
 	verbose: boolean;
 }) {
 	const commitMessage = await createCommitMessage(question, { verbose });
-	console.log({ commitMessage });
+	if (verbose) {
+		console.log({ commitMessage });
+	}
 
 	commit(commitMessage);
 }
