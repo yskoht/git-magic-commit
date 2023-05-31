@@ -1,13 +1,15 @@
+export type CommitMessage = string;
+
+export type Params = {
+	diff: string;
+	question: string;
+};
+
 export type Option = {
 	verbose: boolean;
 };
 
-export type CommitMessage = {
-	subject: string;
-	body?: string;
-};
-
 export type CreateCommitMessage = (
-	question: string,
+	params: Params,
 	opt: Option,
 ) => Promise<CommitMessage>;

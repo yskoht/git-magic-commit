@@ -13,7 +13,12 @@ async function gitMagicCommit({
 }: {
 	verbose: boolean;
 }) {
-	const commitMessage = await createCommitMessage(question, { verbose });
+	const diff = await git.diff();
+
+	const commitMessage = await createCommitMessage(
+		{ diff, question },
+		{ verbose },
+	);
 	if (verbose) {
 		console.log({ commitMessage });
 	}

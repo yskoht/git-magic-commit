@@ -6,7 +6,6 @@ import {
 } from "langchain/chains";
 import { Document } from "langchain/document";
 
-import * as git from "./lib/git.js";
 import * as utils from "./lib/utils.js";
 import * as types from "./lib/types.js";
 
@@ -43,17 +42,19 @@ async function createSubject(
 	return commitMessage;
 }
 
+function postProcess(subject: string, summary: string): string {
+	const _subject = utils.postProcess(subject);
+	const _summary = utils.postProcess(summary);
+	return `${_subject}\n\n${_summary}`;
+}
+
 const createCommitMessage: types.CreateCommitMessage = async (
-	question,
+	{ diff, question },
 	opt,
 ) => {
-	const diff = await git.diff();
 	const summary = await summarize(diff, opt);
 	const subject = await createSubject(diff, summary, question, opt);
-	return {
-		subject: utils.postProcess(subject),
-		body: utils.postProcess(summary),
-	};
+	return postProcess(subject, summary);
 };
 
 export default createCommitMessage;
