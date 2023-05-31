@@ -1,9 +1,9 @@
 import { OpenAI } from "langchain/llms/openai";
 import { AnalyzeDocumentChain, loadQARefineChain } from "langchain/chains";
 
-import * as git from "./git.js";
-import { postProcess } from "./utils.js";
-import { CreateCommitMessage, Option } from "./types.js";
+import * as git from "./lib/git.js";
+import { postProcess } from "./lib/utils.js";
+import { CreateCommitMessage, Option } from "./lib/types.js";
 
 async function createSubject(
 	diff: string,

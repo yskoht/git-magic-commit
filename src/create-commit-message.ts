@@ -6,9 +6,9 @@ import {
 } from "langchain/chains";
 import { Document } from "langchain/document";
 
-import * as git from "./git.js";
-import { postProcess } from "./utils.js";
-import { CreateCommitMessage, Option } from "./types.js";
+import * as git from "./lib/git.js";
+import { postProcess } from "./lib/utils.js";
+import { CreateCommitMessage, Option } from "./lib/types.js";
 
 const DIFF_MAX_LENGTH = 2000;
 
