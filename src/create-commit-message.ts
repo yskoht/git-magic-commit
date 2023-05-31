@@ -7,12 +7,12 @@ import {
 import { Document } from "langchain/document";
 
 import * as git from "./lib/git.js";
-import { postProcess } from "./lib/utils.js";
-import { CreateCommitMessage, Option } from "./lib/types.js";
+import * as utils from "./lib/utils.js";
+import * as types from "./lib/types.js";
 
 const DIFF_MAX_LENGTH = 2000;
 
-async function summarize(diff: string, opt: Option): Promise<string> {
+async function summarize(diff: string, opt: types.Option): Promise<string> {
 	const model = new OpenAI({ temperature: 0, verbose: opt.verbose });
 	const chain = new AnalyzeDocumentChain({
 		combineDocumentsChain: loadSummarizationChain(model),
@@ -29,7 +29,7 @@ async function createSubject(
 	diff: string,
 	summary: string,
 	question: string,
-	opt: Option,
+	opt: types.Option,
 ): Promise<string> {
 	const pageContent = diff.length < DIFF_MAX_LENGTH ? diff : summary;
 	const docs = [new Document({ pageContent })];
@@ -43,7 +43,7 @@ async function createSubject(
 	return commitMessage;
 }
 
-export const createCommitMessage: CreateCommitMessage = async (
+export const createCommitMessage: types.CreateCommitMessage = async (
 	question,
 	opt,
 ) => {
@@ -51,7 +51,7 @@ export const createCommitMessage: CreateCommitMessage = async (
 	const summary = await summarize(diff, opt);
 	const subject = await createSubject(diff, summary, question, opt);
 	return {
-		subject: postProcess(subject),
-		body: postProcess(summary),
+		subject: utils.postProcess(subject),
+		body: utils.postProcess(summary),
 	};
 };
