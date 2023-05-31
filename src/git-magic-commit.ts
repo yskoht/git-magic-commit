@@ -1,4 +1,4 @@
-import { createCommitMessage } from "./create-commit-message.js";
+import createCommitMessage from "./create-commit-message.js";
 
 import * as utils from "./lib/utils.js";
 import * as git from "./lib/git.js";
@@ -8,7 +8,7 @@ const question = utils.q(`
 	Please answer the message only in English, no more than 50 characters.
 `);
 
-export async function gitMagicCommit({
+async function gitMagicCommit({
 	verbose,
 }: {
 	verbose: boolean;
@@ -20,3 +20,5 @@ export async function gitMagicCommit({
 
 	await git.commit(commitMessage);
 }
+
+export default gitMagicCommit;

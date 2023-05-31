@@ -43,7 +43,7 @@ async function createSubject(
 	return commitMessage;
 }
 
-export const createCommitMessage: types.CreateCommitMessage = async (
+const createCommitMessage: types.CreateCommitMessage = async (
 	question,
 	opt,
 ) => {
@@ -55,3 +55,5 @@ export const createCommitMessage: types.CreateCommitMessage = async (
 		body: utils.postProcess(summary),
 	};
 };
+
+export default createCommitMessage;

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import meow from "meow";
 
-import { gitMagicCommit } from "./git-magic-commit.js";
+import gitMagicCommit from "./git-magic-commit.js";
 
 const cli = meow(
 	`
