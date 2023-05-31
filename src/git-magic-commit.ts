@@ -9,8 +9,12 @@ const question = utils.q(`
 `);
 
 async function gitMagicCommit({
+	dryRun,
+	silent,
 	verbose,
 }: {
+	dryRun: boolean;
+	silent: boolean;
 	verbose: boolean;
 }) {
 	const diff = await git.diff();
@@ -19,11 +23,14 @@ async function gitMagicCommit({
 		{ diff, question },
 		{ verbose },
 	);
-	if (verbose) {
-		console.log({ commitMessage });
+
+	if (!silent) {
+		console.log(commitMessage);
 	}
 
-	await git.commit(commitMessage);
+	if (!dryRun) {
+		await git.commit(commitMessage);
+	}
 }
 
 export default gitMagicCommit;
