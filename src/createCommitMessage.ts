@@ -6,7 +6,7 @@ import {
 } from "langchain/chains";
 import { Document } from "langchain/document";
 
-import { generateDiff } from "./git.js";
+import * as git from "./git.js";
 import { postProcess } from "./utils.js";
 import { CreateCommitMessage, Option } from "./types.js";
 
@@ -47,7 +47,7 @@ export const createCommitMessage: CreateCommitMessage = async (
 	question,
 	opt,
 ) => {
-	const diff = await generateDiff();
+	const diff = await git.diff();
 	const summary = await summarize(diff, opt);
 	const subject = await createSubject(diff, summary, question, opt);
 	return {

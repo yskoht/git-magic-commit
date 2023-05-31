@@ -1,7 +1,7 @@
 import { OpenAI } from "langchain/llms/openai";
 import { AnalyzeDocumentChain, loadQARefineChain } from "langchain/chains";
 
-import { generateDiff } from "./git.js";
+import * as git from "./git.js";
 import { postProcess } from "./utils.js";
 import { CreateCommitMessage, Option } from "./types.js";
 
@@ -27,7 +27,7 @@ export const createCommitMessage: CreateCommitMessage = async (
 	question,
 	opt,
 ) => {
-	const diff = await generateDiff();
+	const diff = await git.diff();
 	const subject = await createSubject(diff, question, opt);
 	return {
 		subject: postProcess(subject),

@@ -1,6 +1,6 @@
 import { q } from "./utils.js";
 import { createCommitMessage } from "./createCommitMessage.js";
-import { commit } from "./git.js";
+import * as git from "./git.js";
 
 const question = q(`
 	Generate a concise and appropriate Git commit message.
@@ -17,5 +17,5 @@ export async function gitMagicCommit({
 		console.log({ commitMessage });
 	}
 
-	await commit(commitMessage);
+	await git.commit(commitMessage);
 }
