@@ -1,5 +1,5 @@
 import { q } from "./utils.js";
-import { createCommitMessage } from "./createCommitMessage.js";
+import { createCommitMessage } from "./create-commit-message.js";
 import * as git from "./git.js";
 
 const question = q(`
