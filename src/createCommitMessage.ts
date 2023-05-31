@@ -6,7 +6,7 @@ import {
 } from "langchain/chains";
 import { Document } from "langchain/document";
 
-import { generateDiff } from "./generateDiff.js";
+import { generateDiff } from "./git.js";
 import { postProcess } from "./utils.js";
 import { CreateCommitMessage, Option } from "./types.js";
 

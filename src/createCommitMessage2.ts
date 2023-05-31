@@ -1,7 +1,7 @@
 import { OpenAI } from "langchain/llms/openai";
 import { AnalyzeDocumentChain, loadQARefineChain } from "langchain/chains";
 
-import { generateDiff } from "./generateDiff.js";
+import { generateDiff } from "./git.js";
 import { postProcess } from "./utils.js";
 import { CreateCommitMessage, Option } from "./types.js";
 

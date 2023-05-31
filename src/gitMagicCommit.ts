@@ -1,6 +1,6 @@
 import { q } from "./utils.js";
 import { createCommitMessage } from "./createCommitMessage.js";
-import { commit } from "./commit.js";
+import { commit } from "./git.js";
 
 const question = q(`
 	Generate a concise and appropriate Git commit message.
