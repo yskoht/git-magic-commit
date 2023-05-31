@@ -3,7 +3,7 @@ import createCommitMessage from "./create-commit-message.js";
 import * as utils from "./lib/utils.js";
 import * as git from "./lib/git.js";
 
-const question = utils.q(`
+const question = utils.createQuestion(`
 	Generate a concise and appropriate Git commit message.
 	Please answer the message only in English, no more than 50 characters.
 `);

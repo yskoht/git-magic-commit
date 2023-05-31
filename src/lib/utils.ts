@@ -1,4 +1,4 @@
-export function q(str: string): string {
+export function createQuestion(str: string): string {
 	return str.replace(/\n/g, "").trim();
 }
 
