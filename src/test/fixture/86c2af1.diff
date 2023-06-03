@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index cf66ca5..7363f44 100644
+--- a/package.json
++++ b/package.json
+@@ -19,6 +19,7 @@
+ 		"dist"
+ 	],
+ 	"dependencies": {
++		"cli-highlight": "^2.1.11",
+ 		"ink": "^4.1.0",
+ 		"ink-spinner": "^5.0.0",
+ 		"meow": "^11.0.0",

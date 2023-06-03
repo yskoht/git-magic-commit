@@ -1,0 +1,44 @@
+diff --git a/source/components/ScrollArea/types.ts b/source/components/ScrollArea/types.ts
+index 084f432..cbabc09 100644
+--- a/source/components/ScrollArea/types.ts
++++ b/source/components/ScrollArea/types.ts
+@@ -9,6 +9,9 @@ export type ScrollAreaApi = {
+ 	scrollToTop: () => void;
+ 	scrollToBottom: () => void;
+ 	resize: () => void;
++	outerHeight: number;
++	innerHeight: number;
++	positionFromInnerTop: number;
+ };
+ export type ScrollHandler = (
+ 	input: string,
+diff --git a/source/components/ScrollArea/useScrollArea.ts b/source/components/ScrollArea/useScrollArea.ts
+index 207693f..c77fd3c 100644
+--- a/source/components/ScrollArea/useScrollArea.ts
++++ b/source/components/ScrollArea/useScrollArea.ts
+@@ -8,12 +8,24 @@ function useScrollArea() {
+ 	const store = useContext(ScrollAreaContext);
+ 	const api: ScrollAreaApi = useStore(
+ 		store,
+-		({scrollDown, scrollUp, scrollToTop, scrollToBottom, resize}) => ({
++		({
+ 			scrollDown,
+ 			scrollUp,
+ 			scrollToTop,
+ 			scrollToBottom,
+ 			resize,
++			outerHeight,
++			innerHeight,
++			positionFromInnerTop,
++		}) => ({
++			scrollDown,
++			scrollUp,
++			scrollToTop,
++			scrollToBottom,
++			resize,
++			outerHeight,
++			innerHeight,
++			positionFromInnerTop,
+ 		}),
+ 	);
+

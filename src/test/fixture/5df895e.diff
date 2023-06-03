@@ -1,0 +1,238 @@
+diff --git a/source/components/ScrollArea/InnerBox.tsx b/source/components/ScrollArea/InnerBox.tsx
+new file mode 100644
+index 0000000..5b44d50
+--- /dev/null
++++ b/source/components/ScrollArea/InnerBox.tsx
+@@ -0,0 +1,42 @@
++import {Box, measureElement} from 'ink';
++import React, {useRef, useEffect, useContext, useMemo} from 'react';
++import {useStore} from 'zustand';
++
++import {isNullable} from '@/utilities/index.js';
++
++import {ScrollAreaContext} from './ScrollAreaContext.js';
++
++type Props = {
++	children: React.ReactNode;
++};
++function InnerBox({children}: Props) {
++	const ref = useRef(null);
++	const store = useContext(ScrollAreaContext);
++	const {setInnerHeight, positionFromInnerTop} = useStore(
++		store,
++		({setInnerHeight, positionFromInnerTop}) => ({
++			setInnerHeight,
++			positionFromInnerTop,
++		}),
++	);
++
++	useEffect(() => {
++		if (!isNullable(ref.current)) {
++			const dimensions = measureElement(ref.current);
++			setInnerHeight(dimensions.height);
++		}
++	}, [setInnerHeight]);
++
++	const marginTop = useMemo(
++		() => -positionFromInnerTop,
++		[positionFromInnerTop],
++	);
++
++	return (
++		<Box ref={ref} flexShrink={0} flexDirection="column" marginTop={marginTop}>
++			{children}
++		</Box>
++	);
++}
++
++export default InnerBox;
+diff --git a/source/components/ScrollArea/OuterBox.tsx b/source/components/ScrollArea/OuterBox.tsx
+new file mode 100644
+index 0000000..9552b5e
+--- /dev/null
++++ b/source/components/ScrollArea/OuterBox.tsx
+@@ -0,0 +1,34 @@
++import {Box, measureElement} from 'ink';
++import React, {useEffect, useContext, useRef} from 'react';
++import {useStore} from 'zustand';
++
++import {isNullable} from '@/utilities/index.js';
++
++import {ScrollAreaContext} from './ScrollAreaContext.js';
++
++type Props = {
++	children: React.ReactNode;
++	height?: number | string;
++};
++
++function OuterBox({children, height}: Props) {
++	const ref = useRef(null);
++
++	const store = useContext(ScrollAreaContext);
++	const {setOuterHeight} = useStore(store);
++
++	useEffect(() => {
++		if (!isNullable(ref.current)) {
++			const dimensions = measureElement(ref.current);
++			setOuterHeight(dimensions.height);
++		}
++	}, [setOuterHeight]);
++
++	return (
++		<Box ref={ref} height={height} flexDirection="column" overflow="hidden">
++			{children}
++		</Box>
++	);
++}
++
++export default OuterBox;
+diff --git a/source/components/ScrollArea/ScrollArea.tsx b/source/components/ScrollArea/ScrollArea.tsx
+new file mode 100644
+index 0000000..c3e8b57
+--- /dev/null
++++ b/source/components/ScrollArea/ScrollArea.tsx
+@@ -0,0 +1,24 @@
++import React from 'react';
++
++import InnerBox from './InnerBox.js';
++import OuterBox from './OuterBox.js';
++import ScrollAreaContextProvider from './ScrollAreaContext.js';
++import ScrollController from './ScrollController.js';
++
++type Props = {
++	children: React.ReactNode;
++	height?: number | string;
++	isActive?: boolean;
++};
++function ScrollArea({children, height, isActive = true}: Props) {
++	return (
++		<ScrollAreaContextProvider>
++			<ScrollController isActive={isActive} />
++			<OuterBox height={height}>
++				<InnerBox>{children}</InnerBox>
++			</OuterBox>
++		</ScrollAreaContextProvider>
++	);
++}
++
++export default ScrollArea;
+diff --git a/source/components/ScrollArea/ScrollAreaContext.tsx b/source/components/ScrollArea/ScrollAreaContext.tsx
+new file mode 100644
+index 0000000..33da5b5
+--- /dev/null
++++ b/source/components/ScrollArea/ScrollAreaContext.tsx
+@@ -0,0 +1,21 @@
++// @ts-ignore
++import React, {createContext} from 'react';
++
++import store, {Store} from './store.js';
++
++// @ts-ignore
++export const ScrollAreaContext = createContext<Store>(null);
++
++type Props = {
++	children: React.ReactNode;
++};
++
++function ScrollAreaContextProvider({children}: Props) {
++	return (
++		<ScrollAreaContext.Provider value={store}>
++			{children}
++		</ScrollAreaContext.Provider>
++	);
++}
++
++export default ScrollAreaContextProvider;
+diff --git a/source/components/ScrollArea/ScrollController.ts b/source/components/ScrollArea/ScrollController.ts
+new file mode 100644
+index 0000000..3233e18
+--- /dev/null
++++ b/source/components/ScrollArea/ScrollController.ts
+@@ -0,0 +1,34 @@
++import {useInput} from 'ink';
++import {useContext} from 'react';
++import {useStore} from 'zustand';
++
++import {ScrollAreaContext} from './ScrollAreaContext.js';
++
++type Props = {
++	isActive: boolean;
++};
++function ScrollController({isActive}: Props) {
++	const store = useContext(ScrollAreaContext);
++	const {scrollDown, scrollUp} = useStore(store, ({scrollDown, scrollUp}) => ({
++		scrollDown,
++		scrollUp,
++	}));
++
++	useInput(
++		(_input, key) => {
++			if (key.downArrow) {
++				scrollDown(1);
++				return;
++			}
++			if (key.upArrow) {
++				scrollUp(1);
++				return;
++			}
++		},
++		{isActive},
++	);
++
++	return null;
++}
++
++export default ScrollController;
+diff --git a/source/components/ScrollArea/index.ts b/source/components/ScrollArea/index.ts
+new file mode 100644
+index 0000000..aa57c2c
+--- /dev/null
++++ b/source/components/ScrollArea/index.ts
+@@ -0,0 +1 @@
++export {default} from './ScrollArea.js';
+diff --git a/source/components/ScrollArea/store.ts b/source/components/ScrollArea/store.ts
+new file mode 100644
+index 0000000..1b2eb9e
+--- /dev/null
++++ b/source/components/ScrollArea/store.ts
+@@ -0,0 +1,40 @@
++import {createStore, StoreApi} from 'zustand/vanilla';
++
++type StoreCore = {
++	outerHeight: number;
++	innerHeight: number;
++	positionFromInnerTop: number;
++	setOuterHeight: (height: number) => void;
++	setInnerHeight: (height: number) => void;
++	scrollDown: (n?: number) => void;
++	scrollUp: (n?: number) => void;
++};
++export type Store = StoreApi<StoreCore>;
++
++const store = createStore<StoreCore>((set) => ({
++	outerHeight: 0,
++	innerHeight: 0,
++	positionFromInnerTop: 0,
++	setOuterHeight: (outerHeight) => set({outerHeight}),
++	setInnerHeight: (innerHeight) => set({innerHeight}),
++	scrollDown: (n = 1) =>
++		set(({innerHeight, outerHeight, positionFromInnerTop}) => {
++			const positionFromInnerTopMax = Math.max(innerHeight - outerHeight, 0);
++			const nextPosition = Math.min(
++				positionFromInnerTop + n,
++				positionFromInnerTopMax,
++			);
++			return {
++				positionFromInnerTop: nextPosition,
++			};
++		}),
++	scrollUp: (n = 1) =>
++		set(({positionFromInnerTop}) => {
++			const nextPosition = Math.max(positionFromInnerTop - n, 0);
++			return {
++				positionFromInnerTop: nextPosition,
++			};
++		}),
++}));
++
++export default store;

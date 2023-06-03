@@ -1,0 +1,144 @@
+diff --git a/source/cli.tsx b/source/cli.tsx
+index 7d3047d..b40bf02 100644
+--- a/source/cli.tsx
++++ b/source/cli.tsx
+@@ -3,24 +3,31 @@ import {render} from 'ink';
+ import meow from 'meow';
+ import React from 'react';
+
++import Logger from '@/components/Logger/Logger.js';
++
+ import App from './app.js';
+
+-meow(
++const cli = meow(
+ 	`
+ 	Usage
+-	  $ chat-gpt-cli
++	  $ cgc
+
+ 	Options
+-		--name  Your name
+-
+-	Examples
+-	  $ chat-gpt-cli --name=Jane
+-	  Hello, Jane
++		--debug  Output debug log
+ `,
+ 	{
+ 		importMeta: import.meta,
+-		flags: {},
++		flags: {
++			debug: {
++				type: 'boolean',
++				default: false,
++			},
++		},
+ 	},
+ );
+
+-render(<App />);
++render(
++	<Logger debug={cli.flags.debug}>
++		<App />
++	</Logger>,
++);
+diff --git a/source/components/Logger/Logger.tsx b/source/components/Logger/Logger.tsx
+new file mode 100644
+index 0000000..f093b5d
+--- /dev/null
++++ b/source/components/Logger/Logger.tsx
+@@ -0,0 +1,15 @@
++import React from 'react';
++
++import LoggerContextProvider from './LoggerContext.js';
++
++type Props = {
++	debug: boolean;
++	children: React.ReactNode;
++};
++function Logger({debug, children}: Props) {
++	return (
++		<LoggerContextProvider debug={debug}>{children}</LoggerContextProvider>
++	);
++}
++
++export default Logger;
+diff --git a/source/components/Logger/LoggerContext.tsx b/source/components/Logger/LoggerContext.tsx
+new file mode 100644
+index 0000000..fd6c686
+--- /dev/null
++++ b/source/components/Logger/LoggerContext.tsx
+@@ -0,0 +1,20 @@
++import React, {createContext, useMemo} from 'react';
++
++import store, {Store} from './store.js';
++
++// @ts-ignore
++export const LoggerContext = createContext<Store>(null);
++
++type Props = {
++	debug: boolean;
++	children: React.ReactNode;
++};
++
++function LoggerContextProvider({debug, children}: Props) {
++	const _store = useMemo(() => store(debug), [debug]);
++	return (
++		<LoggerContext.Provider value={_store}>{children}</LoggerContext.Provider>
++	);
++}
++
++export default LoggerContextProvider;
+diff --git a/source/components/Logger/index.ts b/source/components/Logger/index.ts
+new file mode 100644
+index 0000000..2231b44
+--- /dev/null
++++ b/source/components/Logger/index.ts
+@@ -0,0 +1 @@
++export {default} from './Logger.js';
+diff --git a/source/components/Logger/store.ts b/source/components/Logger/store.ts
+new file mode 100644
+index 0000000..59fa593
+--- /dev/null
++++ b/source/components/Logger/store.ts
+@@ -0,0 +1,18 @@
++import Logger from 'bunyan';
++import {createStore, StoreApi} from 'zustand/vanilla';
++
++import {createLogger} from '@/libraries/logger.js';
++import {nop} from '@/utilities/index.js';
++
++type StoreCore = {
++	logger: Logger;
++};
++export type Store = StoreApi<StoreCore>;
++
++const store = (debug: boolean) =>
++	createStore<StoreCore>(() => ({
++		// @ts-ignore
++		logger: debug ? createLogger() : nop,
++	}));
++
++export default store;
+diff --git a/source/components/Logger/useLogger.ts b/source/components/Logger/useLogger.ts
+new file mode 100644
+index 0000000..ad6a602
+--- /dev/null
++++ b/source/components/Logger/useLogger.ts
+@@ -0,0 +1,15 @@
++import {useContext} from 'react';
++import {useStore} from 'zustand';
++
++import {LoggerContext} from './LoggerContext.js';
++
++function useLogger() {
++	const store = useContext(LoggerContext);
++	const {logger} = useStore(store, ({logger}) => ({
++		logger,
++	}));
++
++	return logger;
++}
++
++export default useLogger;

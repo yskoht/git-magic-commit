@@ -1,0 +1,13 @@
+diff --git a/readme.md b/readme.md
+index f7d8854..3e85d3d 100644
+--- a/readme.md
++++ b/readme.md
+@@ -13,7 +13,7 @@
+ 1. Install ChatGPT CLI globally using npm:
+
+ ```bash
+-$ npm install --global chat-gpt-cli
++$ npm install -g @yskoht/chat-gpt-cli
+ ```
+
+ 2. Set up your OpenAI API credentials as environment variables:
