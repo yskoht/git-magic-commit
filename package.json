@@ -6,9 +6,7 @@
 	"bin": {
 		"git-magic-commit": "./dist/cli.js"
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build": "tsc",
 		"format": "rome format --write src",
